@@ -1,0 +1,18 @@
+{
+	"AWSTemplateFormatVersion": "2010-09-09",
+	"Description": "Demo ec2 instance creation",
+
+	"Resources": {
+		"MyInstance1" : {
+			 "Type" : "AWS::EC2::Instance",
+			 "Properties" : {
+				 "AvailabilityZone" : "ap-south-1a",
+				 "ImageId" : "ami-0d2986f2e8c0f7d01",
+				 "InstanceType" : "t2.micro",
+				 "KeyName" : "DEMO1",
+				 "SecurityGroups" : [ "default" ]
+			 }
+		}
+		 
+	}
+}

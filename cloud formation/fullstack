@@ -1,0 +1,48 @@
+{
+	"AWSTemplateFormatVersion": "2010-09-09",
+	"Description": "Demo ec2 instance creation",
+
+	"Resources": {
+		"MyInstance1" : {
+			 "Type" : "AWS::EC2::Instance",
+			 "Properties" : {
+				 "AvailabilityZone" : "ap-south-1a",
+				 "ImageId" : "ami-0d2986f2e8c0f7d01",
+				 "InstanceType" : "t2.micro",
+				 "KeyName" : "DEMO1",
+				 "SecurityGroups" : [ "default" ]
+			 }
+		},
+		"MyInstance2" : {
+			 "Type" : "AWS::EC2::Instance",
+			 "Properties" : {
+				 "AvailabilityZone" : "ap-south-1b",
+				 "ImageId" : "ami-0d2986f2e8c0f7d01",
+				 "InstanceType" : "t2.micro",
+				 "KeyName" : "DEMO1",
+				 "SecurityGroups" : [ "default" ]
+			 }
+		},
+		        "ElasticLoadBalancer": {
+          "Type": "AWS::ElasticLoadBalancing::LoadBalancer",
+          "Properties": {
+            "AvailabilityZones": [ "ap-south-1a", "ap-south-1b"],
+			"Instances" : [ {"Ref" : "MyInstance1"}, {"Ref":"MyInstance2"} ],
+            "Listeners": [{
+              "LoadBalancerPort": "80",
+              "InstancePort": "80",
+              "Protocol": "HTTP"
+            }],
+            "HealthCheck": {
+              "Target": "HTTP:80/",
+              "HealthyThreshold": "6",
+              "UnhealthyThreshold": "6",
+              "Interval": "30",
+              "Timeout": "5"
+            }
+
+          }
+        }
+
+	}
+}
